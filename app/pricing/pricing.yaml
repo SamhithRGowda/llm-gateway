@@ -1,0 +1,9 @@
+# Estimated per-1K-token pricing (USD), used by app/usage/cost_calculator.py.
+# Placeholder figures per PLAN.md Section 10 -- verify against each
+# provider's current published pricing before relying on these for anything
+# beyond demo purposes. Snapshot date: 2026-08-30.
+openai:
+  gpt-4o-mini: {input_per_1k: 0.00015, output_per_1k: 0.0006}
+  gpt-4o: {input_per_1k: 0.0025, output_per_1k: 0.01}
+groq:
+  llama-3.1-8b-instant: {input_per_1k: 0.00005, output_per_1k: 0.00008}

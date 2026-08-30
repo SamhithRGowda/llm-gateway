@@ -26,9 +26,18 @@ deliverable.
   routing engine: YAML-defined model-alias -> provider chains
   (`app/routing/model_aliases.yaml`, `app/routing/config.py`) and chain
   resolution with per-provider retry + fallback (`app/routing/router.py`).
-  No circuit breaker yet (Phase 6), no `/v1/chat` HTTP endpoint yet (Phase 4),
-  no observability/metrics (Phase 7). All new tests use mocked HTTP or fake
-  in-memory adapters; no real API calls.
+  No circuit breaker yet (Phase 6), no observability/metrics (Phase 7). All
+  new tests use mocked HTTP or fake in-memory adapters; no real API calls.
+- **Phase 4** — the `POST /v1/chat` endpoint (`app/api/routes_chat.py`),
+  wiring auth (Phase 1) + the router/providers (Phases 2-3) + usage/cost
+  persistence. Adds `app/usage/models.py` (`RequestLog` SQLAlchemy model),
+  `app/usage/repository.py`, `app/usage/cost_calculator.py`, and
+  `app/pricing/pricing.yaml`. Malformed requests (missing/empty messages,
+  invalid role, empty content, unknown model alias) return `400`; an
+  exhausted provider chain returns `502` with per-provider attempt details.
+  No rate limiting (`429`) yet (Phase 5), no circuit breaker (Phase 6), no
+  `/metrics`/`/stats`/structured logging (Phase 7). All tests use mocked
+  HTTP or fake in-memory adapters; no real OpenAI/Groq calls.
 
 ## Setup
 

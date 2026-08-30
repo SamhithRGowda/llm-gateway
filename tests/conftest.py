@@ -87,6 +87,39 @@ async def seeded_api_key(test_engine):
 
 
 @pytest_asyncio.fixture
+async def seeded_api_key_pair(test_engine):
+    """Like seeded_api_key, but also returns the key's id -- needed by Phase 4
+    tests that verify a request_logs row was written for a given api_key_id."""
+    raw_key = "test-raw-key-chat-98765"
+    key_id = str(uuid.uuid4())
+    session_factory = async_sessionmaker(bind=test_engine, expire_on_commit=False)
+    async with session_factory() as session:
+        await session.execute(
+            text(
+                "INSERT INTO api_keys (id, key_hash, label, active) "
+                "VALUES (:id, :key_hash, :label, 1)"
+            ),
+            {"id": key_id, "key_hash": hash_api_key(raw_key), "label": "chat-test-client"},
+        )
+        await session.commit()
+    return raw_key, key_id
+
+
+@pytest_asyncio.fixture
+async def fetch_request_logs(test_engine):
+    """Returns an async callable that fetches all request_logs rows, for
+    Phase 4 tests asserting usage/cost rows were written correctly."""
+
+    async def _fetch():
+        session_factory = async_sessionmaker(bind=test_engine, expire_on_commit=False)
+        async with session_factory() as session:
+            result = await session.execute(text("SELECT * FROM request_logs"))
+            return result.mappings().all()
+
+    return _fetch
+
+
+@pytest_asyncio.fixture
 async def client(test_engine):
     session_factory = async_sessionmaker(bind=test_engine, expire_on_commit=False)
 

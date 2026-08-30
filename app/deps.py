@@ -5,9 +5,22 @@ from fastapi import Depends
 
 from app.auth.api_keys import ApiKeyRecord, get_active_api_key
 from app.db.base import get_session
+from app.providers.groq_adapter import GroqAdapter
+from app.providers.openai_adapter import OpenAIAdapter
+from app.routing.router import Router
 
 # Re-exported so routes can do `Depends(get_db_session)`.
 get_db_session = get_session
+
+# One Router instance, built once with the real provider adapters. Adapters
+# only read their API key from settings at send()-time, so constructing them
+# here does not require credentials to be present unless a request actually
+# reaches that provider.
+_router = Router(adapters={"openai": OpenAIAdapter(), "groq": GroqAdapter()})
+
+
+def get_router() -> Router:
+    return _router
 
 
 async def get_current_api_key(
