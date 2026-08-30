@@ -38,6 +38,14 @@ deliverable.
   No rate limiting (`429`) yet (Phase 5), no circuit breaker (Phase 6), no
   `/metrics`/`/stats`/structured logging (Phase 7). All tests use mocked
   HTTP or fake in-memory adapters; no real OpenAI/Groq calls.
+- **Phase 5** — Redis-backed token bucket rate limiting
+  (`app/ratelimit/limiter.py`), wired into `/v1/chat` before routing. Limits
+  requests per API key per minute (global default or the key's
+  `rate_limit_per_min` override); exceeding it returns `429` with
+  `retry_after_seconds` and a `Retry-After` header, and logs a
+  `request_logs` row with `status="rate_limited"` and zero cost/latency (no
+  provider was called). No circuit breaker (Phase 6), no `/metrics`/`/stats`
+  (Phase 7). Tests use `fakeredis`; no real Redis or provider calls.
 
 ## Setup
 

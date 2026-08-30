@@ -7,6 +7,7 @@ from app.auth.api_keys import ApiKeyRecord, get_active_api_key
 from app.db.base import get_session
 from app.providers.groq_adapter import GroqAdapter
 from app.providers.openai_adapter import OpenAIAdapter
+from app.ratelimit.limiter import RateLimiter
 from app.routing.router import Router
 
 # Re-exported so routes can do `Depends(get_db_session)`.
@@ -21,6 +22,14 @@ _router = Router(adapters={"openai": OpenAIAdapter(), "groq": GroqAdapter()})
 
 def get_router() -> Router:
     return _router
+
+
+# One RateLimiter instance, built once against the configured Redis URL.
+_rate_limiter = RateLimiter()
+
+
+def get_rate_limiter() -> RateLimiter:
+    return _rate_limiter
 
 
 async def get_current_api_key(

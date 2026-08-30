@@ -6,9 +6,15 @@ in-memory is acceptable for most tests if schema is simple enough to be
 dialect-agnostic"). Postgres-only features from init.sql (pgcrypto/gen_random_uuid,
 TIMESTAMPTZ) are swapped for SQLite-compatible equivalents here; the real
 schema used at runtime is still app/db/migrations/init.sql against Postgres.
+
+Phase 5 note: the `client` fixture also overrides the rate limiter dependency
+with a fakeredis-backed instance (generous capacity) so that tests unrelated
+to rate limiting don't depend on -- or get blocked by -- a real Redis server.
+Rate-limiting-specific tests build their own RateLimiter with a small limit.
 """
 import uuid
 
+import fakeredis.aioredis
 import pytest
 import pytest_asyncio
 from httpx import ASGITransport, AsyncClient
@@ -17,8 +23,9 @@ from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
 from sqlalchemy.pool import StaticPool
 
 from app.auth.api_keys import hash_api_key
-from app.deps import get_db_session
+from app.deps import get_db_session, get_rate_limiter
 from app.main import app
+from app.ratelimit.limiter import RateLimiter
 
 TEST_SCHEMA = """
 CREATE TABLE api_keys (
@@ -128,6 +135,10 @@ async def client(test_engine):
             yield session
 
     app.dependency_overrides[get_db_session] = override_get_db_session
+
+    # Generous fakeredis-backed limiter so unrelated tests never get 429'd.
+    fake_redis = fakeredis.aioredis.FakeRedis(decode_responses=True)
+    app.dependency_overrides[get_rate_limiter] = lambda: RateLimiter(redis_client=fake_redis)
 
     transport = ASGITransport(app=app)
     async with AsyncClient(transport=transport, base_url="http://test") as ac:
