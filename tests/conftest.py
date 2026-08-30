@@ -1,0 +1,103 @@
+"""Shared test fixtures.
+
+Uses an in-memory SQLite DB instead of Postgres for speed and zero Docker
+dependency in the unit test suite, per PLAN.md Section 13's guidance ("SQLite
+in-memory is acceptable for most tests if schema is simple enough to be
+dialect-agnostic"). Postgres-only features from init.sql (pgcrypto/gen_random_uuid,
+TIMESTAMPTZ) are swapped for SQLite-compatible equivalents here; the real
+schema used at runtime is still app/db/migrations/init.sql against Postgres.
+"""
+import uuid
+
+import pytest
+import pytest_asyncio
+from httpx import ASGITransport, AsyncClient
+from sqlalchemy import text
+from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
+from sqlalchemy.pool import StaticPool
+
+from app.auth.api_keys import hash_api_key
+from app.deps import get_db_session
+from app.main import app
+
+TEST_SCHEMA = """
+CREATE TABLE api_keys (
+    id TEXT PRIMARY KEY,
+    key_hash TEXT NOT NULL UNIQUE,
+    label TEXT NOT NULL,
+    rate_limit_per_min INTEGER,
+    created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+    active BOOLEAN NOT NULL DEFAULT 1
+);
+
+CREATE TABLE request_logs (
+    id TEXT PRIMARY KEY,
+    api_key_id TEXT,
+    model_alias TEXT,
+    provider_used TEXT,
+    model_used TEXT,
+    status TEXT,
+    attempt_count INTEGER,
+    fallback_occurred BOOLEAN,
+    input_tokens INTEGER,
+    output_tokens INTEGER,
+    total_tokens INTEGER,
+    estimated_cost_usd NUMERIC,
+    latency_ms INTEGER,
+    error_message TEXT,
+    created_at TEXT DEFAULT CURRENT_TIMESTAMP
+);
+"""
+
+
+@pytest_asyncio.fixture
+async def test_engine():
+    engine = create_async_engine("sqlite+aiosqlite:///:memory:", poolclass=StaticPool)
+    async with engine.begin() as conn:
+        for statement in TEST_SCHEMA.strip().split(";"):
+            statement = statement.strip()
+            if statement:
+                await conn.execute(text(statement))
+    yield engine
+    await engine.dispose()
+
+
+@pytest_asyncio.fixture
+async def db_session(test_engine):
+    session_factory = async_sessionmaker(bind=test_engine, expire_on_commit=False)
+    async with session_factory() as session:
+        yield session
+
+
+@pytest_asyncio.fixture
+async def seeded_api_key(test_engine):
+    """Inserts one active API key directly and returns its raw (unhashed) value."""
+    raw_key = "test-raw-key-12345"
+    session_factory = async_sessionmaker(bind=test_engine, expire_on_commit=False)
+    async with session_factory() as session:
+        await session.execute(
+            text(
+                "INSERT INTO api_keys (id, key_hash, label, active) "
+                "VALUES (:id, :key_hash, :label, 1)"
+            ),
+            {"id": str(uuid.uuid4()), "key_hash": hash_api_key(raw_key), "label": "test-client"},
+        )
+        await session.commit()
+    return raw_key
+
+
+@pytest_asyncio.fixture
+async def client(test_engine):
+    session_factory = async_sessionmaker(bind=test_engine, expire_on_commit=False)
+
+    async def override_get_db_session():
+        async with session_factory() as session:
+            yield session
+
+    app.dependency_overrides[get_db_session] = override_get_db_session
+
+    transport = ASGITransport(app=app)
+    async with AsyncClient(transport=transport, base_url="http://test") as ac:
+        yield ac
+
+    app.dependency_overrides.clear()
