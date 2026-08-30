@@ -21,6 +21,14 @@ deliverable.
   rate limiting, or `/v1/chat` endpoint yet -- those are later phases. All
   provider tests use mocked HTTP (`respx`); no real API calls are made in the
   test suite.
+- **Phase 3** — Groq provider adapter (`app/providers/groq_adapter.py`,
+  subclassing `OpenAIAdapter` since Groq's API is OpenAI-compatible) and the
+  routing engine: YAML-defined model-alias -> provider chains
+  (`app/routing/model_aliases.yaml`, `app/routing/config.py`) and chain
+  resolution with per-provider retry + fallback (`app/routing/router.py`).
+  No circuit breaker yet (Phase 6), no `/v1/chat` HTTP endpoint yet (Phase 4),
+  no observability/metrics (Phase 7). All new tests use mocked HTTP or fake
+  in-memory adapters; no real API calls.
 
 ## Setup
 

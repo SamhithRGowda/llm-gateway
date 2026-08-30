@@ -1,0 +1,9 @@
+model_aliases:
+  fast-cheap:
+    - {provider: groq, model: llama-3.1-8b-instant}
+    - {provider: openai, model: gpt-4o-mini}
+  balanced:
+    - {provider: openai, model: gpt-4o-mini}
+    - {provider: groq, model: llama-3.1-8b-instant}
+  premium:
+    - {provider: openai, model: gpt-4o}

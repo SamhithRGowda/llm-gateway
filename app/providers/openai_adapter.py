@@ -40,7 +40,7 @@ class OpenAIAdapter(ProviderAdapter):
             async with httpx.AsyncClient(base_url=self._base_url, timeout=self._timeout) as client:
                 response = await client.post("/chat/completions", json=payload, headers=headers)
         except (httpx.TimeoutException, httpx.ConnectError) as exc:
-            raise RetryableProviderError(f"OpenAI request failed: {exc}") from exc
+            raise RetryableProviderError(f"{self.name} request failed: {exc}") from exc
 
         self._raise_for_status(response)
 
@@ -62,10 +62,10 @@ class OpenAIAdapter(ProviderAdapter):
         if response.status_code == 429:
             retry_after = response.headers.get("Retry-After")
             raise ProviderRateLimitedError(
-                f"OpenAI rate limited (429): {response.text}",
+                f"{self.name} rate limited (429): {response.text}",
                 retry_after_seconds=float(retry_after) if retry_after else None,
             )
         if response.status_code >= 500:
-            raise RetryableProviderError(f"OpenAI server error ({response.status_code}): {response.text}")
+            raise RetryableProviderError(f"{self.name} server error ({response.status_code}): {response.text}")
         # 400/401/403/404 and any other 4xx: not retryable
-        raise FatalProviderError(f"OpenAI request error ({response.status_code}): {response.text}")
+        raise FatalProviderError(f"{self.name} request error ({response.status_code}): {response.text}")
