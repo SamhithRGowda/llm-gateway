@@ -13,6 +13,14 @@ deliverable.
   a seed script for local dev keys, and a temporary `/v1/_whoami` route used
   only to verify the auth dependency end-to-end (superseded by `/v1/chat` in
   Phase 4).
+- **Phase 2** — Provider abstraction (`app/providers/base.py`: `NormalizedRequest`,
+  `NormalizedResponse`, `ProviderAdapter`), the provider error hierarchy
+  (`app/providers/errors.py`), a generic async retry/backoff helper
+  (`app/reliability/retry.py`), and the OpenAI provider adapter
+  (`app/providers/openai_adapter.py`). No routing, fallback, circuit breaker,
+  rate limiting, or `/v1/chat` endpoint yet -- those are later phases. All
+  provider tests use mocked HTTP (`respx`); no real API calls are made in the
+  test suite.
 
 ## Setup
 
