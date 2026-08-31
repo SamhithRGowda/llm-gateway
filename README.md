@@ -56,6 +56,19 @@ deliverable.
   settings. `/health` now also reports each provider's `circuit_state`. No
   `/metrics`/`/stats`/structured logging (Phase 7). All tests use fake
   in-memory adapters; no real Redis or provider calls.
+- **Phase 7** — Structured JSON request logging (`app/observability/logging_config.py`,
+  one line per `/v1/chat` request with `request_id`, `api_key_label`,
+  `model_alias`, `provider_used`, `status`, `latency_ms`, `fallback_occurred`
+  — message content is never logged) and Prometheus metrics
+  (`app/observability/metrics.py`: `gateway_requests_total`,
+  `gateway_request_latency_seconds`, `gateway_fallback_events_total`,
+  `gateway_rate_limit_exceeded_total`, `gateway_tokens_total`,
+  `gateway_estimated_cost_usd_total`), exposed at `GET /metrics`
+  (`app/api/routes_metrics.py`). `GET /stats` (`app/api/routes_stats.py`)
+  returns a human-readable usage summary computed from the last 1000
+  `request_logs` rows. No test-suite hardening pass, benchmark, or final
+  README rewrite (Phases 8-10). All tests use fake in-memory adapters and
+  `fakeredis`; no real Redis, Postgres, or provider calls.
 
 ## Setup
 

@@ -7,6 +7,8 @@ from fastapi.responses import JSONResponse
 from app.api.routes_chat import router as chat_router
 from app.api.routes_debug_auth import router as debug_auth_router
 from app.api.routes_health import router as health_router
+from app.api.routes_metrics import router as metrics_router
+from app.api.routes_stats import router as stats_router
 
 
 def create_app() -> FastAPI:
@@ -14,6 +16,8 @@ def create_app() -> FastAPI:
     app.include_router(health_router)
     app.include_router(debug_auth_router)
     app.include_router(chat_router)
+    app.include_router(metrics_router)
+    app.include_router(stats_router)
 
     @app.exception_handler(RequestValidationError)
     async def validation_error_handler(request: Request, exc: RequestValidationError) -> JSONResponse:

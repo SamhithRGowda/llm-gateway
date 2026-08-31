@@ -13,3 +13,4 @@ PyYAML==6.0.2
 redis==5.0.8
 fakeredis==2.37.1
 lupa==2.8
+prometheus-client==0.21.0
