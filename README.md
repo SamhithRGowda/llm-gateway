@@ -46,6 +46,16 @@ deliverable.
   `request_logs` row with `status="rate_limited"` and zero cost/latency (no
   provider was called). No circuit breaker (Phase 6), no `/metrics`/`/stats`
   (Phase 7). Tests use `fakeredis`; no real Redis or provider calls.
+- **Phase 6** — Per-provider circuit breaker (`app/reliability/circuit_breaker.py`),
+  a simple in-process 3-state machine (CLOSED -> OPEN -> HALF_OPEN) with
+  independent state for OpenAI and Groq, integrated into the router
+  (`app/routing/router.py`): an OPEN provider is skipped with no network
+  attempt, and success/failure are recorded around each provider attempt
+  (after Phase 3's retry logic exhausts). Uses the existing
+  `CIRCUIT_BREAKER_FAILURE_THRESHOLD` / `CIRCUIT_BREAKER_COOLDOWN_SECONDS`
+  settings. `/health` now also reports each provider's `circuit_state`. No
+  `/metrics`/`/stats`/structured logging (Phase 7). All tests use fake
+  in-memory adapters; no real Redis or provider calls.
 
 ## Setup
 

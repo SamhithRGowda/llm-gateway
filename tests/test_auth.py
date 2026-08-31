@@ -29,4 +29,7 @@ async def test_protected_route_with_seeded_key_returns_200(client, seeded_api_ke
 async def test_health_route_is_unauthenticated(client):
     resp = await client.get("/health")
     assert resp.status_code == 200
-    assert resp.json() == {"status": "ok"}
+    body = resp.json()
+    # Phase 6 adds per-provider circuit state to /health; the exact shape is
+    # covered in test_circuit_breaker.py, this just confirms no auth is required.
+    assert body["status"] == "ok"
