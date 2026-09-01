@@ -1,0 +1,135 @@
+{
+  "summary": {
+    "name": "rate_limit_behavior",
+    "total_requests": 20,
+    "success_count": 5,
+    "success_rate": 0.25,
+    "p50_latency_ms": 4.09,
+    "p95_latency_ms": 35.89,
+    "p99_latency_ms": 51.43,
+    "rejected_429_count": 15,
+    "accepted_count": 5
+  },
+  "records": [
+    {
+      "status_code": 200,
+      "latency_ms": 55.313,
+      "fallback_occurred": false,
+      "error": null
+    },
+    {
+      "status_code": 200,
+      "latency_ms": 34.87,
+      "fallback_occurred": false,
+      "error": null
+    },
+    {
+      "status_code": 200,
+      "latency_ms": 34.384,
+      "fallback_occurred": false,
+      "error": null
+    },
+    {
+      "status_code": 200,
+      "latency_ms": 34.321,
+      "fallback_occurred": false,
+      "error": null
+    },
+    {
+      "status_code": 200,
+      "latency_ms": 34.332,
+      "fallback_occurred": false,
+      "error": null
+    },
+    {
+      "status_code": 429,
+      "latency_ms": 4.11,
+      "fallback_occurred": null,
+      "error": null
+    },
+    {
+      "status_code": 429,
+      "latency_ms": 4.048,
+      "fallback_occurred": null,
+      "error": null
+    },
+    {
+      "status_code": 429,
+      "latency_ms": 4.325,
+      "fallback_occurred": null,
+      "error": null
+    },
+    {
+      "status_code": 429,
+      "latency_ms": 4.385,
+      "fallback_occurred": null,
+      "error": null
+    },
+    {
+      "status_code": 429,
+      "latency_ms": 4.028,
+      "fallback_occurred": null,
+      "error": null
+    },
+    {
+      "status_code": 429,
+      "latency_ms": 4.079,
+      "fallback_occurred": null,
+      "error": null
+    },
+    {
+      "status_code": 429,
+      "latency_ms": 4.212,
+      "fallback_occurred": null,
+      "error": null
+    },
+    {
+      "status_code": 429,
+      "latency_ms": 3.953,
+      "fallback_occurred": null,
+      "error": null
+    },
+    {
+      "status_code": 429,
+      "latency_ms": 3.889,
+      "fallback_occurred": null,
+      "error": null
+    },
+    {
+      "status_code": 429,
+      "latency_ms": 4.043,
+      "fallback_occurred": null,
+      "error": null
+    },
+    {
+      "status_code": 429,
+      "latency_ms": 3.92,
+      "fallback_occurred": null,
+      "error": null
+    },
+    {
+      "status_code": 429,
+      "latency_ms": 3.938,
+      "fallback_occurred": null,
+      "error": null
+    },
+    {
+      "status_code": 429,
+      "latency_ms": 3.875,
+      "fallback_occurred": null,
+      "error": null
+    },
+    {
+      "status_code": 429,
+      "latency_ms": 4.057,
+      "fallback_occurred": null,
+      "error": null
+    },
+    {
+      "status_code": 429,
+      "latency_ms": 4.256,
+      "fallback_occurred": null,
+      "error": null
+    }
+  ]
+}

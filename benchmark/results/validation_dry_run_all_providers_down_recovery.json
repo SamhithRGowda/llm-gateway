@@ -1,0 +1,34 @@
+{
+  "summary": {
+    "name": "all_providers_down_recovery",
+    "total_requests": 3,
+    "success_count": 1,
+    "success_rate": 0.3333,
+    "p50_latency_ms": 1788.42,
+    "p95_latency_ms": 1790.64,
+    "p99_latency_ms": 1790.84,
+    "initial_status_code": 502,
+    "recovered": true,
+    "recovery_time_seconds": 2.79
+  },
+  "records": [
+    {
+      "status_code": 502,
+      "latency_ms": 1790.889,
+      "fallback_occurred": null,
+      "error": null
+    },
+    {
+      "status_code": 502,
+      "latency_ms": 1788.42,
+      "fallback_occurred": null,
+      "error": null
+    },
+    {
+      "status_code": 200,
+      "latency_ms": 51.263,
+      "fallback_occurred": false,
+      "error": null
+    }
+  ]
+}

@@ -1,0 +1,316 @@
+{
+  "summary": {
+    "name": "baseline_throughput",
+    "total_requests": 50,
+    "success_count": 50,
+    "success_rate": 1.0,
+    "p50_latency_ms": 54.73,
+    "p95_latency_ms": 87.66,
+    "p99_latency_ms": 91.34,
+    "requests_per_sec": 155.7,
+    "wall_clock_seconds": 0.321,
+    "concurrency": 10
+  },
+  "records": [
+    {
+      "status_code": 200,
+      "latency_ms": 94.703,
+      "fallback_occurred": false,
+      "error": null
+    },
+    {
+      "status_code": 200,
+      "latency_ms": 87.757,
+      "fallback_occurred": false,
+      "error": null
+    },
+    {
+      "status_code": 200,
+      "latency_ms": 87.849,
+      "fallback_occurred": false,
+      "error": null
+    },
+    {
+      "status_code": 200,
+      "latency_ms": 87.333,
+      "fallback_occurred": false,
+      "error": null
+    },
+    {
+      "status_code": 200,
+      "latency_ms": 87.549,
+      "fallback_occurred": false,
+      "error": null
+    },
+    {
+      "status_code": 200,
+      "latency_ms": 86.921,
+      "fallback_occurred": false,
+      "error": null
+    },
+    {
+      "status_code": 200,
+      "latency_ms": 87.042,
+      "fallback_occurred": false,
+      "error": null
+    },
+    {
+      "status_code": 200,
+      "latency_ms": 86.14,
+      "fallback_occurred": false,
+      "error": null
+    },
+    {
+      "status_code": 200,
+      "latency_ms": 86.361,
+      "fallback_occurred": false,
+      "error": null
+    },
+    {
+      "status_code": 200,
+      "latency_ms": 85.806,
+      "fallback_occurred": false,
+      "error": null
+    },
+    {
+      "status_code": 200,
+      "latency_ms": 37.677,
+      "fallback_occurred": false,
+      "error": null
+    },
+    {
+      "status_code": 200,
+      "latency_ms": 40.733,
+      "fallback_occurred": false,
+      "error": null
+    },
+    {
+      "status_code": 200,
+      "latency_ms": 65.259,
+      "fallback_occurred": false,
+      "error": null
+    },
+    {
+      "status_code": 200,
+      "latency_ms": 64.983,
+      "fallback_occurred": false,
+      "error": null
+    },
+    {
+      "status_code": 200,
+      "latency_ms": 59.957,
+      "fallback_occurred": false,
+      "error": null
+    },
+    {
+      "status_code": 200,
+      "latency_ms": 64.407,
+      "fallback_occurred": false,
+      "error": null
+    },
+    {
+      "status_code": 200,
+      "latency_ms": 64.401,
+      "fallback_occurred": false,
+      "error": null
+    },
+    {
+      "status_code": 200,
+      "latency_ms": 57.226,
+      "fallback_occurred": false,
+      "error": null
+    },
+    {
+      "status_code": 200,
+      "latency_ms": 64.16,
+      "fallback_occurred": false,
+      "error": null
+    },
+    {
+      "status_code": 200,
+      "latency_ms": 64.001,
+      "fallback_occurred": false,
+      "error": null
+    },
+    {
+      "status_code": 200,
+      "latency_ms": 43.132,
+      "fallback_occurred": false,
+      "error": null
+    },
+    {
+      "status_code": 200,
+      "latency_ms": 39.736,
+      "fallback_occurred": false,
+      "error": null
+    },
+    {
+      "status_code": 200,
+      "latency_ms": 38.003,
+      "fallback_occurred": false,
+      "error": null
+    },
+    {
+      "status_code": 200,
+      "latency_ms": 38.358,
+      "fallback_occurred": false,
+      "error": null
+    },
+    {
+      "status_code": 200,
+      "latency_ms": 38.668,
+      "fallback_occurred": false,
+      "error": null
+    },
+    {
+      "status_code": 200,
+      "latency_ms": 56.507,
+      "fallback_occurred": false,
+      "error": null
+    },
+    {
+      "status_code": 200,
+      "latency_ms": 56.208,
+      "fallback_occurred": false,
+      "error": null
+    },
+    {
+      "status_code": 200,
+      "latency_ms": 52.535,
+      "fallback_occurred": false,
+      "error": null
+    },
+    {
+      "status_code": 200,
+      "latency_ms": 55.977,
+      "fallback_occurred": false,
+      "error": null
+    },
+    {
+      "status_code": 200,
+      "latency_ms": 55.631,
+      "fallback_occurred": false,
+      "error": null
+    },
+    {
+      "status_code": 200,
+      "latency_ms": 42.185,
+      "fallback_occurred": false,
+      "error": null
+    },
+    {
+      "status_code": 200,
+      "latency_ms": 42.022,
+      "fallback_occurred": false,
+      "error": null
+    },
+    {
+      "status_code": 200,
+      "latency_ms": 40.797,
+      "fallback_occurred": false,
+      "error": null
+    },
+    {
+      "status_code": 200,
+      "latency_ms": 44.106,
+      "fallback_occurred": false,
+      "error": null
+    },
+    {
+      "status_code": 200,
+      "latency_ms": 40.513,
+      "fallback_occurred": false,
+      "error": null
+    },
+    {
+      "status_code": 200,
+      "latency_ms": 37.316,
+      "fallback_occurred": false,
+      "error": null
+    },
+    {
+      "status_code": 200,
+      "latency_ms": 53.045,
+      "fallback_occurred": false,
+      "error": null
+    },
+    {
+      "status_code": 200,
+      "latency_ms": 56.978,
+      "fallback_occurred": false,
+      "error": null
+    },
+    {
+      "status_code": 200,
+      "latency_ms": 54.956,
+      "fallback_occurred": false,
+      "error": null
+    },
+    {
+      "status_code": 200,
+      "latency_ms": 54.887,
+      "fallback_occurred": false,
+      "error": null
+    },
+    {
+      "status_code": 200,
+      "latency_ms": 54.565,
+      "fallback_occurred": false,
+      "error": null
+    },
+    {
+      "status_code": 200,
+      "latency_ms": 54.22,
+      "fallback_occurred": false,
+      "error": null
+    },
+    {
+      "status_code": 200,
+      "latency_ms": 44.25,
+      "fallback_occurred": false,
+      "error": null
+    },
+    {
+      "status_code": 200,
+      "latency_ms": 45.585,
+      "fallback_occurred": false,
+      "error": null
+    },
+    {
+      "status_code": 200,
+      "latency_ms": 43.87,
+      "fallback_occurred": false,
+      "error": null
+    },
+    {
+      "status_code": 200,
+      "latency_ms": 36.561,
+      "fallback_occurred": false,
+      "error": null
+    },
+    {
+      "status_code": 200,
+      "latency_ms": 49.131,
+      "fallback_occurred": false,
+      "error": null
+    },
+    {
+      "status_code": 200,
+      "latency_ms": 44.744,
+      "fallback_occurred": false,
+      "error": null
+    },
+    {
+      "status_code": 200,
+      "latency_ms": 44.491,
+      "fallback_occurred": false,
+      "error": null
+    },
+    {
+      "status_code": 200,
+      "latency_ms": 44.395,
+      "fallback_occurred": false,
+      "error": null
+    }
+  ]
+}
