@@ -13,6 +13,13 @@ async def test_protected_route_with_malformed_header_returns_401(client):
     assert resp.status_code == 401
 
 
+async def test_protected_route_with_empty_bearer_token_returns_401(client):
+    # "Bearer " (empty/whitespace-only token after the scheme) is a distinct
+    # code path from a missing header or a malformed scheme entirely.
+    resp = await client.get("/v1/_whoami", headers={"Authorization": "Bearer "})
+    assert resp.status_code == 401
+
+
 async def test_protected_route_with_unknown_key_returns_401(client):
     resp = await client.get("/v1/_whoami", headers={"Authorization": "Bearer does-not-exist"})
     assert resp.status_code == 401
